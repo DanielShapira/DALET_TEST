@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iTunes-API TEST</title>
+    <link rel="shortcut icon" href="itunesLogo.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="test.js"></script>
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+    <form id = "searchForm">
+        <ul>
+            <li id="logo"><img src="itunesLogo.png" /></li>
+            <li><input type="text" id="search_text" placeholder="Enter search value ......" required/></li>
+            <li class="dropdown">
+                Filter By:<select  id="categoryDropBoxBtn">
+                    <optgroup label="Movie">
+                        <option>movieArtist</option>
+                        <option>movie</option>
+                    </optgroup>
+                    <optgroup label="Music">
+                        <option>musicArtist</option>
+                        <option>album</option>
+                        <option>musicVideo</option>
+                        <option>mix</option>
+                        <option>song</option>
+                    </optgroup>
+                    <optgroup label="Audiobook">
+                        <option>audiobookAuthor</option>
+                        <option>audiobook</option>
+                    </optgroup>
+                    <optgroup label="Ebook">
+                        <option>ebook</option>
+                    </optgroup>
+                    <optgroup label="Software">
+                        <option>software</option>
+                        <option>iPadSoftware</option>
+                        <option>macSoftware</option>
+                    </optgroup>
+                </select>
+            </li>
+            <li class="dropdown">Maximum result: <select id = "maxResult"></select></li>
+            <li><input type="button" id = "resetButton" value="Reset"></li>
+            <li><input id = "searchButton" type="submit" value="Search"></li>
+        </ul>
+    </form>
+
+    <div class="loader"></div>
+    <p id = "foundItmes"></p>
+
+    <table id = "dataView">
+
+    </table>
+
+</body>
+</html>
