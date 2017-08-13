@@ -1,0 +1,128 @@
+body{
+    background-color: lightgray;
+    margin: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+img{
+    width: 70px;
+    height: 70px;
+    padding-right: 20px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li img, #search_text, .dropdown {
+    float: left;
+    display: inline-block;
+}
+
+li #searchButton, #resetButton{
+    float: right;
+    display: inline-block;
+}
+
+.dropdown{
+    color: white;
+    padding-left: 20px;
+}
+
+#search_text{
+    margin: 20px;
+    padding: 5px;
+}
+
+#categoryDropBoxBtn ,#searchButton, #resetButton, #maxResult{
+    background-color: #333;
+    color:white;
+    text-align: center;
+    border: none;
+    padding: 14px;
+    margin: 15px;
+}
+
+#searchButton:hover ,#resetButton:hover{
+    background-color: red;
+}
+
+optgroup{
+    font-size: 14px;
+    color: red;
+}
+
+option{
+    font-size: 12px;
+    color:white;
+}
+
+#foundItmes{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#dataView{
+    width: 100%;
+}
+
+thead{
+    font-weight: bold;
+    color:blue;
+    font-size: 23px;
+}
+
+tbody{
+    cursor: pointer;
+}
+
+tbody tr:hover{
+    color: red;
+}
+
+th{
+    padding: 3px;
+    border-bottom: 1px dotted gray;
+}
+
+th i{
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sortArrowOrFreePaid{
+    color:black;
+}
+
+.arrowUpOrFree{
+    color: limegreen;
+}
+
+.arrowDownOrPaid{
+    color:red;
+}
+
+.loader {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: fixed;
+    border-radius: 100%;
+    content:url(itunesLogo.png);
+    width: 180px;
+    height: 180px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
