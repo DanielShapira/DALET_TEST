@@ -34,6 +34,7 @@ $("document").ready(function () {
                 sortChoise.css("display","");
                 sortChoise.prop("selectedIndex",0);
                 payOrnotPay.css("display","");
+                payOrnotPay.prop("selectedIndex",0);
                 builtLayOut();
             }, 100);
             console.log(returnData); // this will show the info it in console
@@ -101,7 +102,6 @@ $("document").ready(function () {
     //Built the thumbnail
     function builtLayOut() {
         dataView.empty();
-        payOrnotPay.prop("selectedIndex",0);
 
         $("#foundItmes").html("Found " + returnData.resultCount + " Items");
 
@@ -190,6 +190,7 @@ $("document").ready(function () {
             }
         });
         builtLayOut();
+        payOrnotPay.click();
     }
 
     startStopLoading(false);
