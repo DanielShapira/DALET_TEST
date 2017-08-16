@@ -34,10 +34,9 @@ $("document").ready(function () {
                 sortChoise.css("display","");
                 sortChoise.prop("selectedIndex",0);
                 payOrnotPay.css("display","");
-                payOrnotPay.prop("selectedIndex",0);
                 builtLayOut();
             }, 100);
-            console.log(returnData); // this will show the info it in console
+
         }).fail(function() { alert('getJSON request failed! '); });
 
         e.preventDefault();
@@ -72,29 +71,15 @@ $("document").ready(function () {
         startStopLoading(true);
         setTimeout(function (){
             var chosenSort = sortChoise.find(':selected').text();
-            var name;
-            var price;
-
-            if(returnData.results[0].hasOwnProperty("trackName")){
-                name = "trackName";
-            }else{
-                name = "collectionName";
-            }
-
-            if(returnData.results[0].hasOwnProperty("trackPrice")){
-                price = "trackPrice";
-            }else{
-                price = "price";
-            }
 
             if(chosenSort === "Sort by name(acs)"){
-                sortJson(name, true);
+                sortJson("string", true);
             }else if(chosenSort === "Sort by name(desc)"){
-                sortJson(name, false);
+                sortJson("string", false);
             }else if(chosenSort === "Sort by price(acs)"){
-                sortJson(price, true);
+                sortJson("number", true);
             }else{
-                sortJson(price, false);
+                sortJson("number", false);
             }
         }, 100);
     });
@@ -102,7 +87,7 @@ $("document").ready(function () {
     //Built the thumbnail
     function builtLayOut() {
         dataView.empty();
-
+        payOrnotPay.prop("selectedIndex",0);
         $("#foundItmes").html("Found " + returnData.resultCount + " Items");
 
         for(var i = 0; i < returnData.resultCount; i++){
@@ -113,7 +98,7 @@ $("document").ready(function () {
             var thumbnailTrackPrice = $("<i/>");
 
             if(returnData.results[i].hasOwnProperty("artworkUrl100")){
-                var newUrl = returnData.results[i].artworkUrl100.slice(0, -13);
+                var newUrl = returnData.results[i]["artworkUrl100"].slice(0, -13);
                 newUrl += "250x250bb.jpg";
                 thumbnailImg.attr('src', newUrl);
                 thumbnailImg.attr('alt', newUrl);
@@ -122,25 +107,25 @@ $("document").ready(function () {
             }
 
             if(returnData.results[i].hasOwnProperty("trackName")) {
-                thumbnailTrackName.html(returnData.results[i].trackName);
+                thumbnailTrackName.html(returnData.results[i]["trackName"]);
             }else if(returnData.results[i].hasOwnProperty("collectionName")){
-                thumbnailTrackName.html(returnData.results[i].collectionName);
+                thumbnailTrackName.html(returnData.results[i]["collectionName"]);
             }else{
                 thumbnailTrackName.html("-");
             }
 
             if(returnData.results[i].hasOwnProperty("artistName")){
-                thumbnailArtistName.html(returnData.results[i].artistName);
+                thumbnailArtistName.html(returnData.results[i]["artistName"]);
             }else{
                 thumbnailArtistName.html("-");
             }
 
-            if(returnData.results[i].hasOwnProperty("trackPrice") && returnData.results[i].trackPrice > 0) {
-                thumbnailTrackPrice.html(returnData.results[i].trackPrice);
-            }else if(returnData.results[i].hasOwnProperty("price") && returnData.results[i].price > 0){
-                thumbnailTrackPrice.html(returnData.results[i].price);
-            }else if(returnData.results[i].hasOwnProperty("collectionPrice") && returnData.results[i].collectionPrice > 0){
-                thumbnailTrackPrice.html(returnData.results[i].collectionPrice);
+            if(returnData.results[i].hasOwnProperty("trackPrice") && returnData.results[i]["trackPrice"] > 0) {
+                thumbnailTrackPrice.html(returnData.results[i]["trackPrice"]);
+            }else if(returnData.results[i].hasOwnProperty("price") && returnData.results[i]["price"] > 0){
+                thumbnailTrackPrice.html(returnData.results[i]["price"]);
+            }else if(returnData.results[i].hasOwnProperty("collectionPrice") && returnData.results[i]["collectionPrice"] > 0){
+                thumbnailTrackPrice.html(returnData.results[i]["collectionPrice"]);
             }else{
                 thumbnailTrackPrice.html("0");
             }
@@ -174,23 +159,51 @@ $("document").ready(function () {
 
     //Sort json by property (price/name).
     function sortJson(prop, asc) {
+        var name, name1, price, price1;
         returnData.results = returnData.results.sort(function(a, b) {
-            if(prop === "trackName" || prop === "collectionName") {
-                if (asc) {
-                    return (a[prop].toLowerCase() > b[prop].toLowerCase()) ? 1 : ((a[prop].toLowerCase() < b[prop].toLowerCase()) ? -1 : 0);
-                } else {
-                    return (b[prop].toLowerCase() > a[prop].toLowerCase()) ? 1 : ((b[prop].toLowerCase() < a[prop].toLowerCase()) ? -1 : 0);
+            if(prop === "string") {
+                if(a.hasOwnProperty("trackName")){
+                    name = "trackName";
+                }else{
+                    name = "collectionName";
                 }
-            }else if(prop === "trackPrice" || prop === "price"){
+
+                if(b.hasOwnProperty("trackName")){
+                    name1 = "trackName";
+                }else{
+                    name1 = "collectionName";
+                }
+
                 if (asc) {
-                    return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+                    return (a[name].toLowerCase() > b[name1].toLowerCase()) ? 1 : ((a[name].toLowerCase() < b[name1].toLowerCase()) ? -1 : 0);
                 } else {
-                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+                    return (b[name1].toLowerCase() > a[name].toLowerCase()) ? 1 : ((b[name1].toLowerCase() < a[name].toLowerCase()) ? -1 : 0);
+                }
+            }else if(prop === "number"){
+                if(a.hasOwnProperty("trackPrice") && a["trackPrice"] > 0) {
+                    price = "trackPrice";
+                }else if(a.hasOwnProperty("price") && a["price"] > 0){
+                    price = "price";
+                }else if(a.hasOwnProperty("collectionPrice") && a["collectionPrice"] > 0){
+                    price = "collectionPrice";
+                }
+
+                if(b.hasOwnProperty("trackPrice") && b["trackPrice"] > 0) {
+                    price1 = "trackPrice";
+                }else if(b.hasOwnProperty("price") && b["price"] > 0){
+                    price1 = "price";
+                }else if(b.hasOwnProperty("collectionPrice") && b["collectionPrice"] > 0){
+                    price1 = "collectionPrice";
+                }
+
+                if (asc) {
+                    return (Number(a[price]) > Number(b[price1])) ? 1 : ((Number(a[price]) < Number(b[price1])) ? -1 : 0);
+                } else {
+                    return (Number(b[price1]) > Number(a[price])) ? 1 : ((Number(b[price1]) < Number(a[price])) ? -1 : 0);
                 }
             }
         });
         builtLayOut();
-        payOrnotPay.click();
     }
 
     startStopLoading(false);
