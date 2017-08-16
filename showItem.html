@@ -6,79 +6,9 @@
     <link rel="shortcut icon" href="itunesLogo.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="showItem.css">
+    <script src="showItem.js"></script>
 </head>
 <body>
-<script>
-    $("document").ready(function () {
-        var item;
-        getData();
-
-        function getData() {
-            item = location.search;
-            item = item.substr(1);
-
-            //gets the 'a' parameter from querystring
-            var a = (/^a=/);
-
-            item = item.split("&").filter(function(item) {
-                return a.test(item);
-            });
-
-            if (!item.length) {
-                $("#error").html("ERROR : ITEM NOT FOUND..");
-                return false;
-            }
-
-            //gets the first element 'a' matched
-            item = item[0].replace("a=", "");
-            item = decodeURIComponent(window.atob(item));
-            item = JSON.parse(item);
-            fillPage();
-        }
-
-        function fillPage(){
-            var body = $("body");
-
-            for(var key in item) {
-                var keyOfdata = document.createElement("p");
-                var data;
-
-                if(item.hasOwnProperty(key)) {
-                    if (key === "artworkUrl100") {
-                        data = document.createElement("img");
-                        data.src =  item[key];
-                        data.width = 100;
-                        data.height = 100;
-                        data.alt = item[key];
-                    } else {
-                        if (isUrl(item[key])) {
-                            data = document.createElement("a");
-                            data.href = item[key];
-                            data.innerHTML = item[key];
-                        } else {
-                            data = document.createElement("i");
-                            data.append(item[key]);
-                        }
-                    }
-
-                    keyOfdata.append(key);
-                    keyOfdata.append(document.createElement("br"));
-                    keyOfdata.append(data);
-                    body.append(keyOfdata);
-                }
-            }
-        }
-
-       function isUrl(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
-            }
-        }
-    });
-</script>
 
 <p id = "error"></p>
 
