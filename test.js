@@ -22,7 +22,8 @@ $("document").ready(function () {
         $('#categoryDropBoxBtn').prop("selectedIndex",0);
         $("#foundItmes").html("");
         dataView.empty();
-        $("#sortChoise").css("display","none");
+        sortChoise.css("display","none");
+        payOrnotPay.css("display","none");
     });
 
     //Make a json request from iTunes
